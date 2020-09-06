@@ -1,24 +1,32 @@
 #!/usr/bin/env python3
-# coding=utf-8
+#coding=utf-8
 
 import sys
+import io
 from itertools import chain
 
 def main ():
-    for arg in sys.argv[1:]:
-        s = arg
-        for (t, r) in chain(
-            roman_to_translit_mappings (),
-            decompose_mappings(),
-            digraph_mappings(),
-            alt_mappings (),
-            mappings(),
-            [("-", "")]
-        ):
-            s = s.replace(t, r)
-        print(s)
+    outfile = "./output.txt"
+    with open(
+        outfile,
+        mode='w',
+        encoding='utf-8'
+    ) as f:
+        for arg in sys.argv[1:]:
+            s = arg
+            for (t, r) in chain(
+                roman_to_translit_mappings (),
+                decompose_mappings(),
+                digraph_mappings(),
+                alt_mappings (),
+                mappings(),
+                [("-", "")]
+            ):
+                s = s.replace(t, r)
+            f.write(f"{s}\n")
+        print(outfile)
 
-def char_range (a = 'a', b = 'z'):
+def char_range (a = "a", b = "z"):
     for c in range(ord(a), ord(b) + 1):
         yield chr(c)
 

@@ -1,0 +1,12 @@
+V 1.0.0 : Initial commit
+    Script takes some romanized Linavic text and runs it through
+    a few rules to make it conform to PUA unicode rules in a custom font.
+    This PUA unicode is then printed to the console.
+
+V 1.1.0 : Output change
+    Script now outputs deromanized PUA text to a file (./output.txt) and
+    prints the file name. The contents of this file can then be piped
+    to the clipboard. This was done for the purpose of avoiding errors
+    occurring from attempting to pipe the console output directly
+    to the clipboard, as it was attempting to use cp1252.py and failing
+    when encountering PUA characters.
