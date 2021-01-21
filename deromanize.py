@@ -7,18 +7,18 @@ from itertools import chain
 
 def main ():
     outfile = "./output.txt"
-    with open(
+    with open (
         outfile,
         mode='w',
         encoding='utf-8'
     ) as f:
         for arg in sys.argv[1:]:
             s = arg
-            for (t, r) in chain(
-                roman_to_translit_mappings (),
+            for (t, r) in chain (
+                roman_to_translit_mappings(),
                 decompose_mappings(),
                 digraph_mappings(),
-                alt_mappings (),
+                alt_mappings(),
                 mappings(),
                 [("-", "")]
             ):
@@ -35,7 +35,7 @@ def chunk (lst, n):
         yield lst[i : i + n]
 
 def roman_to_translit_mappings ():
-    trg =(
+    trg = (
         [ "tth", "nng", "ngq", "ngh"
         , "gq", "gh", "th"
         , "nh", "ng", "nk", "nq"
@@ -70,10 +70,9 @@ def alt_mappings ():
     res = "wy~`"
     return zip(trg, res)
 
-
 def mappings ():
     trg = "kctpqhxṭfḥsgjdbŋnmwylraeozẓź(),.#'~`/^0123456789↊↋"
-    res = chain(
+    res = chain (
         char_range("\ue000", "\ue01b"),
         char_range("\ue020", "\ue029"),
         char_range("\ue030", "\ue03b")
