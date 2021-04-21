@@ -13,7 +13,7 @@ def main ():
         encoding='utf-8'
     ) as f:
         for arg in sys.argv[1:]:
-            s = arg
+            s = arg.lower()
             for (t, r) in chain (
                 roman_to_translit_mappings(),
                 decompose_mappings(),
