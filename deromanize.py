@@ -49,7 +49,7 @@ def roman_to_translit_mappings ():
         , "g'", "w'", "ṭ"
         , "ŋ", "ŋ", "ŋk", "ŋq"
         , "ẓ", "ź", "w", "ß"
-        , "pz", "tz", "cz", "kz", "lz"
+        , "pz", "tz", "cz", "kz", "lz", "s"
         , "xg", "xj", "xd", "xb"
         ]
     )
