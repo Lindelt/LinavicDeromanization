@@ -1,30 +1,22 @@
 #!/usr/bin/env python3
 #coding=utf-8
 
+import argparse
 import sys
-import io
 from itertools import chain
 
-def main ():
-    outfile = "./output.txt"
-    with open (
-        outfile,
-        mode='w',
-        encoding='utf-8'
-    ) as f:
-        for arg in sys.argv[1:]:
-            s = arg.lower()
-            for (t, r) in chain (
-                roman_to_translit_mappings(),
-                decompose_mappings(),
-                digraph_mappings(),
-                alt_mappings(),
-                mappings(),
-                [("-", "")]
-            ):
-                s = s.replace(t, r)
-            f.write(f"{s}\n")
-        print(outfile)
+def main (text: list[str], ostream=sys.stdout):
+    for entry in text:
+        s = entry.lower()
+        for (t, r) in chain (
+            roman_to_translit_mappings(),
+            decompose_mappings(),
+            digraph_mappings(),
+            alt_mappings(),
+            mappings(),
+            [("-", "")]
+        ): s = s.replace(t, r)
+        print(s, file=ostream)
 
 def char_range (a = "a", b = "z"):
     for c in range(ord(a), ord(b) + 1):
@@ -36,21 +28,23 @@ def chunk (lst, n):
 
 def roman_to_translit_mappings ():
     trg = (
-        [ "tth", "nng", "ngq", "ngh"
+        [ "ngq", "ngh", "nhg"
         , "gq", "gh", "th"
-        , "nh", "ng", "nk", "nq"
-        , "zq", "zz", "v", "z"
-        , "pß", "tß", "cß", "kß", "lß", "ß"
+        , "ng", "nk", "nq"
+        , "zq", "zz"
+        , "pz", "tz", "cz", "kz", "lz", "z"
         , "jg", "jj", "jd", "jb"
+        , "vg", "vj", "vd", "vb", "v"
         ]
     )
     res = (
-        [ "ṭṭ", "ŋŋ", "ŋg'", "ŋw'"
-        , "g'", "w'", "ṭ"
-        , "ŋ", "ŋ", "ŋk", "ŋq"
-        , "ẓ", "ź", "w", "ß"
+        [ "ŋŋ'", "ŋw'", "ŋg"
+        , "ŋ'", "w'", "ṭ"
+        , "ŋ", "ŋk", "ŋq"
+        , "ẓ", "ź"
         , "pz", "tz", "cz", "kz", "lz", "s"
         , "xg", "xj", "xd", "xb"
+        , "fg", "fj", "fd", "fb", "w"
         ]
     )
     return zip(trg, res)
@@ -79,5 +73,23 @@ def mappings ():
     )
     return zip(trg, res)
 
+def argparse_setup ():
+    parser = argparse.ArgumentParser (
+        description="Program which maps latin script Linavic text "
+                    "to PUA unicode"
+    )
+    parser.add_argument (
+        '-f', '--file', help="output the results to the given file"
+    )
+    parser.add_argument (
+        'text', nargs='+', help="text to be translated, one line per item"
+    )
+    return parser
+
 if __name__ == '__main__':
-    main()
+    args = argparse_setup().parse_args()
+    if args.file is None:
+        main(args.text)
+    else:
+        with open(args.file, mode='w', encoding='utf-8') as file:
+            main(args.text, file)

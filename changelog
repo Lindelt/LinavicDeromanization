@@ -10,3 +10,10 @@ V 1.1.0 : Output change
     occurring from attempting to pipe the console output directly
     to the clipboard, as it was attempting to use cp1252.py and failing
     when encountering PUA characters.
+
+V 1.2.0: New interface, de-romanization corrections
+    * Script now uses argparse; takes positional arguments for text
+      translation and an optional [-f FILENAME | --file FILENAME] argument
+      if the output is to be written to a file, otherwise outputs to the
+      console.
+    * Sundry errors in the character mapping logic have been corrected.
